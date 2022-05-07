@@ -1,21 +1,20 @@
 pub mod lexer;
+pub mod parser;
 
 use lexer::Buffer;
 use lexer::TipoToken;
 
 fn main() {
-    let teste1 = "(+*43257)";
+    let teste1 = "777 (4 + 3)";
 
     let mut buffer1 = Buffer::cria_com_string(teste1);
 
     println!("Interpretador Minicalc");
-    println!("Testando analisador lexico");
+    println!("Teste do analisador sintatico");
 
-    let mut tok = lexer::proximo_token(&mut buffer1);
-    while tok.tipo != TipoToken::Eof {
-        println!("token: {:?}", tok);
-        tok = lexer::proximo_token(&mut buffer1);
-    }
+    let arvore = parser::analise_sintatica(&mut buffer1);
+
+    println!("Arvore sintatica: {:?}", arvore);
 
     println!("Analise lexica finalizada");
 }
