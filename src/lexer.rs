@@ -12,7 +12,7 @@ pub enum TipoToken {
 #[derive(Debug, PartialEq)]
 pub struct Token {
     pub tipo: TipoToken,
-    linha: usize,
+    pub linha: usize,
 }
 
 impl Token {
@@ -150,4 +150,21 @@ fn teste1_lexer() {
     assert_eq!(proximo_token(&mut buffer1), Token { tipo: TipoToken::Inteiro(43257), linha: 3 });
     assert_eq!(proximo_token(&mut buffer1), Token { tipo: TipoToken::FechaParentese, linha: 3 });
     assert_eq!(proximo_token(&mut buffer1), Token { tipo: TipoToken::Eof, linha: 3 });
+}
+
+#[test]
+fn teste2_lexer() {
+    let teste2 = "print (4 * (39 + 3))";
+    let mut buffer2 = Buffer::cria_com_string(teste2);
+
+    assert_eq!(proximo_token(&mut buffer2), Token { tipo: TipoToken::Print, linha: 1 });
+    assert_eq!(proximo_token(&mut buffer2), Token { tipo: TipoToken::AbreParentese, linha: 1 });
+    assert_eq!(proximo_token(&mut buffer2), Token { tipo: TipoToken::Inteiro(4), linha: 1 });
+    assert_eq!(proximo_token(&mut buffer2), Token { tipo: TipoToken::Asterisco, linha: 1 });
+    assert_eq!(proximo_token(&mut buffer2), Token { tipo: TipoToken::AbreParentese, linha: 1 });
+    assert_eq!(proximo_token(&mut buffer2), Token { tipo: TipoToken::Inteiro(39), linha: 1 });
+    assert_eq!(proximo_token(&mut buffer2), Token { tipo: TipoToken::Soma, linha: 1 });
+    assert_eq!(proximo_token(&mut buffer2), Token { tipo: TipoToken::Inteiro(3), linha: 1 });
+    assert_eq!(proximo_token(&mut buffer2), Token { tipo: TipoToken::FechaParentese, linha: 1 });
+    assert_eq!(proximo_token(&mut buffer2), Token { tipo: TipoToken::FechaParentese, linha: 1 });
 }
